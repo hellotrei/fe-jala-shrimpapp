@@ -37,35 +37,7 @@ const ShrimpDisease = () => {
     getDataFromApiAsync();
   }, []);
 
-  const renderItem = ({ item }) => {
-    return (
-      <View style={styles.containerItem}>
-        <View style={styles.containerImg}>
-          <Image
-            source={{ uri: `https://app.jala.tech/storage/${item.image}` }}
-            style={styles.img}
-          />
-        </View>
-        <View style={styles.containerBody}>
-          <Text style={styles.txtTitle}>{item.full_name}({item.short_name})</Text>
-          <Text style={styles.txtDesc}>{item.meta_description}</Text>
-          <View style={styles.wrapperBodyFooter}>
-            <Text style={styles.txtDesc}>
-              {moment(item.created_at).format("D MMMM YYYY")}
-            </Text>
-            <TouchableOpacity onPress={onShare}>
-              <Ionicons
-                name="md-share-social"
-                size={25}
-                style={styles.iconFill}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    );
-  };
-  const onShare = async () => {
+  const onShare = async (item) => {
     try {
       const result = await Share.share({
         message: `Bagikan profil gejala penyakit ${item.full_name} `,
@@ -85,6 +57,38 @@ const ShrimpDisease = () => {
       alert(error.message);
     }
   };
+
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.containerItem}>
+        <View style={styles.containerImg}>
+          <Image
+            source={{ uri: `https://app.jala.tech/storage/${item.image}` }}
+            style={styles.img}
+          />
+        </View>
+        <View style={styles.containerBody}>
+          <Text style={styles.txtTitle}>
+            {item.full_name}({item.short_name})
+          </Text>
+          <Text style={styles.txtDesc}>{item.meta_description}</Text>
+          <View style={styles.wrapperBodyFooter}>
+            <Text style={styles.txtDesc}>
+              {moment(item.created_at).format("D MMMM YYYY")}
+            </Text>
+            <TouchableOpacity onPress={() => onShare(item)}>
+              <Ionicons
+                name="md-share-social"
+                size={25}
+                style={styles.iconFill}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.txtHeader}>Penyakit Udang</Text>

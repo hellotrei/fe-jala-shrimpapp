@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, StyleSheet, Image, FlatList, Share, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Share,
+  TouchableOpacity,
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import moment from "moment";
 
@@ -26,35 +34,8 @@ const ShrimpNews = () => {
   useEffect(() => {
     getDataFromApiAsync();
   }, []);
-  const renderItem = ({ item }) => {
-    return (
-      <View style={styles.containerItem}>
-        <View style={styles.containerImg}>
-          <Image
-            source={{ uri: `https://app.jala.tech/storage/${item.image}` }}
-            style={styles.img}
-            
-          />
-        </View>
-        <View style={styles.containerBody}>
-          <Text style={styles.txtTitle}>{item.title}</Text>
-          <Text style={styles.txtDesc}>{item.excerpt}</Text>
-          <View style={styles.wrapperBodyFooter}>
-            <Text style={styles.txtDesc}>{moment(item.created_at).format("D MMMM YYYY")}</Text>
-            <TouchableOpacity onPress={onShare}>
-              <Ionicons
-                name="md-share-social"
-                size={25}
-                style={styles.iconFill}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    );
-  };
 
-  const onShare = async () => {
+  const onShare = async (item) => {
     try {
       const result = await Share.share({
         message: `Bagikan berita terbaru mengenai ${item.title} `,
@@ -74,6 +55,36 @@ const ShrimpNews = () => {
       alert(error.message);
     }
   };
+
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.containerItem}>
+        <View style={styles.containerImg}>
+          <Image
+            source={{ uri: `https://app.jala.tech/storage/${item.image}` }}
+            style={styles.img}
+          />
+        </View>
+        <View style={styles.containerBody}>
+          <Text style={styles.txtTitle}>{item.title}</Text>
+          <Text style={styles.txtDesc}>{item.excerpt}</Text>
+          <View style={styles.wrapperBodyFooter}>
+            <Text style={styles.txtDesc}>
+              {moment(item.created_at).format("D MMMM YYYY")}
+            </Text>
+            <TouchableOpacity onPress={() => onShare(item)}>
+              <Ionicons
+                name="md-share-social"
+                size={25}
+                style={styles.iconFill}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.txtHeader}>Kabar Terbaru</Text>
@@ -106,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   img: {
-    flex:1 ,
+    flex: 1,
     width: undefined,
     height: undefined,
     borderTopLeftRadius: 10,
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
   },
   containerImg: {
     height: 150,
-    width: '100%',
+    width: "100%",
     marginBottom: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -125,9 +136,9 @@ const styles = StyleSheet.create({
     marginTop: -15,
   },
   wrapperBodyFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   txtTitle: {
     fontSize: 14,
