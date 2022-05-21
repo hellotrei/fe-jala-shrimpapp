@@ -76,63 +76,18 @@ const ShrimpPrice = ({navigation}) => {
             }
         return dataSend
     }
-    const Modal = (item) => {
-        return (
-            <>
-            <TouchableOpacity 
-            onPress={() => setModalVisible(true)}
-            style = {styles.btn1}>
-            <Text style = {styles.txtBtn1}>Size</Text>
-            <Text style = {styles.txtBtn1}>100</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity 
-        onPress={() => setModalVisible1(true)}
-        style = {styles.btn2}>
-            <Text style = {styles.txtBtn2}>Indonesia</Text>
-        </TouchableOpacity>
-        <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-            setModalVisible(!modalVisible);
-            }}>
-            <View>
-                <ScrollView style={styles.containerModal}>
-                    <View style={styles.wrapperModal1}>
-                        <Text style={styles.txtModal}>Size</Text>
-                        <Pressable
-                            style={[styles.btn, styles.btnClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.txtClose}>Tutup</Text>
-                    </Pressable>
-                    </View>
-                    <Text style={styles.txtModal}>20</Text>
-                    <Text style={styles.txtModal}>30</Text>
-                    <Text style={styles.txtModal}>40</Text>
-                    <Text style={styles.txtModal}>50</Text>
-                    <Text style={styles.txtModal}>60</Text>
-                    <Text style={styles.txtModal}>70</Text>
-                    <Text style={styles.txtModal}>80</Text>
-                    <Text style={styles.txtModal}>90</Text>
-                    <Text style={styles.txtModal}>100</Text>
-                    <Text style={styles.txtModal}>110</Text>
-                    <Text style={styles.txtModal}>120</Text>
-                    <Text style={styles.txtModal}>130</Text>
-                    <Text style={styles.txtModal}>140</Text>
-                    <Text style={styles.txtModal}>150</Text>
-                    <Text style={styles.txtModal}>160</Text>
-                    <Text style={styles.txtModal}>170</Text>
-                    <Text style={styles.txtModal}>180</Text>
-                    <Text style={styles.txtModal}>190</Text>
-                    <Text style={styles.txtModal}>200</Text>
-                </ScrollView>
-            </View>
-        </Modal>
-        </>
-        )
-    } 
+    const sizeList = () => {
+        const data = []
+        for(let i = 20; i<= 200; i++){
+        for(let j =2; j<=20; j++){
+        if(i/10 === j){
+            data.push({"id" : i})
+            }
+        }
+        }
+        return data
+    }
    
     
     return(
@@ -143,19 +98,17 @@ const ShrimpPrice = ({navigation}) => {
                 renderItem = {renderItem}
                 keyExtractor = {(item) => item.id}
             />
-            {Modal}
-            {/* <Modal /> */}
-            {/* <TouchableOpacity 
+            <TouchableOpacity 
                 onPress={() => setModalVisible(true)}
                 style = {styles.btn1}>
-                <Text style = {styles.txtBtn1}>Size</Text>
-                <Text style = {styles.txtBtn1}>100</Text>
+                <Text style = {styles.txtbtn1}>Size</Text>
+                <Text style = {styles.txtbtn1}>{size}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
             onPress={() => setModalVisible1(true)}
             style = {styles.btn2}>
-                <Text style = {styles.txtBtn2}>Indonesia</Text>
+                <Text style = {styles.txtbtn2}>Indonesia</Text>
             </TouchableOpacity>
             <Modal
                 animationType="slide"
@@ -165,43 +118,29 @@ const ShrimpPrice = ({navigation}) => {
                 Alert.alert("Modal has been closed.");
                 setModalVisible(!modalVisible);
                 }}>
-                <View>
-                    <ScrollView style={styles.containerModal}>
-                        <View style={styles.wrapperModal1}>
-                            <Text style={styles.txtModal}>Size</Text>
+                <View style={styles.centeredView}>
+                    <ScrollView style={styles.modalView}>
+                        <View style={styles.modalView1}>
+                            <Text style={styles.modalText}>Size</Text>
                             <Pressable
-                                style={[styles.btn, styles.btnClose]}
+                                style={[styles.button, styles.buttonClose]}
                                 onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.txtClose}>Tutup</Text>
+                                <Text style={styles.textStyle}>Tutup</Text>
                         </Pressable>
                         </View>
-                        <Text style={styles.txtModal}>20</Text>
-                        <Text style={styles.txtModal}>30</Text>
-                        <Text style={styles.txtModal}>40</Text>
-                        <Text style={styles.txtModal}>50</Text>
-                        <Text style={styles.txtModal}>60</Text>
-                        <Text style={styles.txtModal}>70</Text>
-                        <Text style={styles.txtModal}>80</Text>
-                        <Text style={styles.txtModal}>90</Text>
-                        <Text style={styles.txtModal}>100</Text>
-                        <Text style={styles.txtModal}>110</Text>
-                        <Text style={styles.txtModal}>120</Text>
-                        <Text style={styles.txtModal}>130</Text>
-                        <Text style={styles.txtModal}>140</Text>
-                        <Text style={styles.txtModal}>150</Text>
-                        <Text style={styles.txtModal}>160</Text>
-                        <Text style={styles.txtModal}>170</Text>
-                        <Text style={styles.txtModal}>180</Text>
-                        <Text style={styles.txtModal}>190</Text>
-                        <Text style={styles.txtModal}>200</Text>
+                        {sizeList() && sizeList().map((item) => (
+
+                        <Pressable key={item.id}
+                               style={styles.modalText}
+                                onPress={() => {
+                                    setSize(item.id)
+                                    setModalVisible(false)}}>
+                                <Text style={styles.textStyle}>{item.id}</Text>
+                        </Pressable>
+                        ))}
                     </ScrollView>
                 </View>
-            </Modal> */}
-            {/* <FlatList
-                data = {data}
-                renderItem = {renderSize}
-                keyExtractor = {(item) => item.id}
-            /> */}
+            </Modal>
         </SafeAreaView>
     )
 };
