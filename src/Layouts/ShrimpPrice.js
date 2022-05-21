@@ -15,11 +15,13 @@ import {
  import Ionicons from '@expo/vector-icons/Ionicons';
  import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
  import moment from 'moment';
+ import {API_URL} from "@env";
+
 
 const ShrimpPrice = ({navigation}) => {
     const getDataFromApiAsync = async () => {
         try{
-            let response = await fetch(`https://app.jala.tech/api/shrimp_prices?per_page=15&page=1&with=region%2Ccreator&search=${search}`
+            let response = await fetch(`${API_URL}api/shrimp_prices?per_page=15&page=1&with=region%2Ccreator&search=${search}`
             );
             let json = await response.json();
             setData(json.data);
@@ -44,7 +46,7 @@ const ShrimpPrice = ({navigation}) => {
             <View style={styles.containerItem}>
                 <View style={styles.containerImg}>
                     <View style={styles.wrapperAva}><Image
-                        source={{uri: `https://app.jala.tech/storage/${item.creator.avatar}`}}
+                        source={{uri: `${API_URL}storage/${item.creator.avatar}`}}
                         style={styles.img}
                     /></View>
                     <View style={styles.wrapperName}>

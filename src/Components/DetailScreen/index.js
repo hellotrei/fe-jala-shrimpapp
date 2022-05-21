@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import moment from "moment";
+import {API_URL} from "@env";
 
 const DetailScreen = ({ route }) => {
   const number = route.params.data.contact;
@@ -69,7 +70,7 @@ const DetailScreen = ({ route }) => {
     try {
       const result = await Share.share({
         message: `Bagikan profil supplier ${route.params.data.creator.name} `,
-        url: `https://app.jala.tech/shrimp_prices/${route.params.data.creator.id}`,
+        url: `${API_URL}shrimp_prices/${route.params.data.creator.id}`,
         message: `Bagikan profil ${route.params.data.creator.name} `,
       });
       if (result.action === Share.sharedAction) {
@@ -109,7 +110,7 @@ const DetailScreen = ({ route }) => {
           <View style={styles.wrapperAva}>
             <Image
               source={{
-                uri: `https://app.jala.tech/storage/${route.params.data.creator.avatar}`,
+                uri: `${API_URL}storage/${route.params.data.creator.avatar}`,
               }}
               style={styles.img}
             />

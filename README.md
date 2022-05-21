@@ -1,10 +1,9 @@
 
 # Software Engineer (Mobile App React Native) Test JALA 
 
-A brief description of what this project does and who it's for
 
 
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+![Logo](https://is5-ssl.mzstatic.com/image/thumb/PurpleSource125/v4/93/43/ca/9343cafd-2948-3d82-3d53-93a1d533de31/7dde36ff-0948-44f4-bf7d-25b09b3d232b_02-5_U002c5.png/750x750bb.jpeg)
 
 
 ## Screenshots
@@ -89,8 +88,7 @@ Insert gif or link to demo
 
 ## Tech Stack
 
-**Client:** React Native Expo, Redux
-
+**Client:** React Native Expo
 **Server:** Node, Express
 
 
