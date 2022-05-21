@@ -12,7 +12,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import moment from "moment";
 
-const ShrimpDisease = () => {
+const ShrimpDisease = ({ navigation }) => {
   const getDataFromApiAsync = async () => {
     try {
       let response = await fetch(
@@ -60,7 +60,10 @@ const ShrimpDisease = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.containerItem}>
+      <TouchableOpacity
+        style={styles.containerItem}
+        onPress={() => navigation.navigate("Detail Penyakit", { id: item.id })}
+      >
         <View style={styles.containerImg}>
           <Image
             source={{ uri: `https://app.jala.tech/storage/${item.image}` }}
@@ -85,7 +88,7 @@ const ShrimpDisease = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

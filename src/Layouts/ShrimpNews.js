@@ -12,8 +12,8 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import moment from "moment";
 
-const ShrimpNews = () => {
-  const getDataFromApiAsync = async () => {
+const ShrimpNews = ({ navigation }) => {
+  const getDataFromApiAsync = async () => {ß
     try {
       let response = await fetch(
         "https://app.jala.tech/api/posts?per_page=15&page=1&with=creator",
@@ -58,7 +58,10 @@ const ShrimpNews = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.containerItem}>
+      <TouchableOpacity
+        style={styles.containerItem}
+        onPress={() => navigation.navigate("Berita", { id: item.id })}
+      >
         <View style={styles.containerImg}>
           <Image
             source={{ uri: `https://app.jala.tech/storage/${item.image}` }}
@@ -81,7 +84,7 @@ const ShrimpNews = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 

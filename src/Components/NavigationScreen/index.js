@@ -7,6 +7,8 @@ import ShrimpPrice from "../../Layouts/ShrimpPrice";
 import ShrimpNews from "../../Layouts/ShrimpNews";
 import ShrimpDisease from "../../Layouts/ShrimpDisease";
 import DetailScreen from "../DetailScreen";
+import ModalNewsScreen from "../ModalScreen/ModalNews";
+import ModalDiseaseScreen from "../ModalScreen/ModalDisease";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -42,6 +44,26 @@ function NavigationScreen () {
                         headerTitle: '',
                         headerStyle:{
                             backgroundColor: '#1B77DF',
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name = 'Berita'
+                    component = {ModalNewsScreen}
+                    options={{
+                        headerTintColor: 'white',
+                        headerStyle:{
+                            backgroundColor: '#1B77DF'
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name = 'Detail Penyakit'
+                    component = {ModalDiseaseScreen}
+                    options={{
+                        headerTintColor: 'white',
+                        headerStyle:{
+                            backgroundColor: '#1B77DF'
                         }
                     }}
                 />
