@@ -10,12 +10,16 @@ import {
     TouchableOpacity,
     Pressable,
     Modal,
+    TextInput
  } from "react-native";
+ import Ionicons from '@expo/vector-icons/Ionicons';
+ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+ import moment from 'moment';
 
 const ShrimpPrice = ({navigation}) => {
     const getDataFromApiAsync = async () => {
         try{
-            let response = await fetch('https://app.jala.tech/api/shrimp_prices?per_page=15&page=1&with=region%2Ccreator&region_id=nh'
+            let response = await fetch(`https://app.jala.tech/api/shrimp_prices?per_page=15&page=1&with=region%2Ccreator&search=${search}`
             );
             let json = await response.json();
             setData(json.data);
@@ -25,11 +29,11 @@ const ShrimpPrice = ({navigation}) => {
     };
     const [data, setData] = useState([])
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalVisible1, setModalVisible1] = useState([]);
+    const [search, setSearch] = useState('')
     const [size, setSize] = useState(100)
     useEffect(() => {
         getDataFromApiAsync()
-    },[])
+    },[search])
 
     const renderItem = ({item}) => {
         return(
@@ -40,16 +44,24 @@ const ShrimpPrice = ({navigation}) => {
                         source={{uri: `https://app.jala.tech/storage/${item.creator.avatar}`}}
                         style={styles.img}
                     /></View>
-                    <View style={styles.wrapperName}><Text style = {styles.txtCreatorName}>{item.creator.name}</Text></View>
-                    <View style={styles.wrapperVerif}>
-                        <View style={styles.wrapperIcon}></View>{item.creator.email_verified == true ? <Text style={styles.txtVerif}> Terverifikasi</Text> : <Text style={styles.txtVerif}> Unverifikasi</Text>}</View>
+                    <View style={styles.wrapperName}>
+                    <Text style = {styles.txtInfo1}>Supplier</Text>
+                        <Text style = {styles.txtCreatorName}>{item.creator.name}</Text></View>
+                        {item.creator.email_verified == true ?  <View style={styles.wrapperVerif}>
+                        <View style={styles.wrapperIcon}>
+                            <Ionicons name="md-star" size={12} style={styles.iconFill2} />
+                        </View>
+                        <Text style={styles.txtVerif}> Terverifikasi</Text>
+                    </View> :  <View style={styles.wrapperUnverif}>
+                        <Text style={styles.txtVerif}>  Belum terverifikasi</Text>
+                    </View> }
                 </View>
 
                 <View style = {styles.containerBody}>
-                    <Text style = {styles.txtDate}>{item.date}</Text>
+                    <Text style = {styles.txtDate}>{moment(new Date(item.date)).format('D MMMM YYYY')}{}</Text>
                     <Text style = {styles.txtRegionName}>{item.region.full_name}</Text>
                     <Text style = {styles.txtRegion}>{item.region.name_translated}</Text>
-                    <Text style = {styles.txtDate}>size {size}</Text>
+                    <Text style = {styles.txtDate}>Size {size}</Text>
                     <Text style = {styles.txtPrice}>IDR {sizeFilter(size, item)}</Text>
                 </View>
                 <View style = {styles.containerBtn}>
@@ -92,24 +104,36 @@ const ShrimpPrice = ({navigation}) => {
     
     return(
         <SafeAreaView style = {styles.container}>     
-            <Text style = {styles.judul}>Harga Terbaru</Text>       
+            <Text style = {styles.txtTitle}>Harga Terbaru</Text>       
             <FlatList
                 data = {data}
                 renderItem = {renderItem}
                 keyExtractor = {(item) => item.id}
             />
-            <TouchableOpacity 
-                onPress={() => setModalVisible(true)}
-                style = {styles.btn1}>
-                <Text style = {styles.txtbtn1}>Size</Text>
-                <Text style = {styles.txtbtn1}>{size}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            onPress={() => setModalVisible1(true)}
-            style = {styles.btn2}>
-                <Text style = {styles.txtbtn2}>Indonesia</Text>
-            </TouchableOpacity>
+            <View style={styles.containerFooter}>
+                <TouchableOpacity 
+                onPress={() => setModalVisible(true)} style={styles.wrapperFooter1}>
+                <MaterialCommunityIcons name="scale" size={20} style={styles.iconFill} />
+                    <View>
+                        <Text style={styles.txtSize}>Size</Text>
+                        <Text style={styles.txtSizeValue}>{size}</Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.wrapperFooter2}>
+                <Ionicons name="location-sharp" size={25} style={styles.iconFill} />
+                <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                clearButtonMode="always"
+                defaultValue={search}
+                onChangeText={newText => setSearch(newText)}
+                onClear={newText => setSearch('')}
+                placeholder="Indonesia"
+                placeholderTextColor="#fff"
+                style={styles.txtbtn2}
+                />
+                </View>
+            </View>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -188,7 +212,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         color: "#1B77DF",
     },
-    judul: {
+    txtTitle: {
         fontSize: 18,
         lineHeight: 24,
         letterSpacing: 0.5,
@@ -212,10 +236,38 @@ const styles = StyleSheet.create({
         // height: 50,
         // borderRadius: 50,
     },
+    containerFooter: {
+        width: '100%',
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    wrapperFooter1: {
+        width: '30%',
+        height: 40,
+        paddingLeft: 20,
+        borderBottomLeftRadius: 25,
+        borderTopLeftRadius: 25,
+        backgroundColor: '#00326b',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    },
+    wrapperFooter2: {
+        width: '60%',
+        height: 40,
+        paddingLeft: 20,
+        borderBottomRightRadius: 25,
+        borderTopRightRadius: 25,
+        backgroundColor: '#1B77DF',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    },
     wrapperAva: {
         width: '15%',
         height: 50,
-        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -226,18 +278,29 @@ const styles = StyleSheet.create({
     },
     wrapperVerif: {
         width: '25%',
-        height: 25,
+        height: 20,
         borderRadius: 25,
-        backgroundColor:'orange',
+        backgroundColor:'#ffe6b8',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    wrapperUnverif: {
+        width: '26%',
+        height: 20,
+        borderRadius: 25,
+        backgroundColor:'#b3b3b3',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
     wrapperIcon: {
-        width: 20,
-        height: 20,
-        borderRadius: 20,
-        backgroundColor: 'yellow'
+        width: 16,
+        height: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 16,
+        backgroundColor: '#f6a104'
     },
     txtVerif: {
         fontSize: 10,
@@ -250,10 +313,7 @@ const styles = StyleSheet.create({
     img: {
         width: 40,
         height: 40,
-        borderRadius: 40,
-        resizeMode: 'contain',
-        borderWidth: 1,
-        borderColor: 'black'
+        borderRadius: 20,
     },
     containerBody:{
         flex: 1,
@@ -327,20 +387,17 @@ const styles = StyleSheet.create({
         alignSelf: "center"
     },
     txtDate: {
-        fontSize: 12,
-        fontWeight: '400',
-        lineHeight: 16,
-        marginLeft: 10
+        fontSize: 10,
+        marginLeft: 10,
+        color: '#0192d5',
     },
     txtRegionName: {
-        fontSize: 12,
-        fontWeight: '400',
-        lineHeight: 16,
+        fontSize: 10,
         marginLeft: 10
     },
     txtRegion: {
         fontWeight: '700',
-        fontSize: 18,
+        fontSize: 14,
         lineHeight: 24,
         marginLeft: 10
     },
@@ -350,6 +407,27 @@ const styles = StyleSheet.create({
         lineHeight: 28,
         marginLeft: 10,
     },
+    txtInfo1: {
+        fontSize: 22,
+        fontWeight: "bold",
+        marginLeft: 10,
+    },
+    txtSize: {
+        color: '#fff',
+        fontSize: 10
+    },
+    txtSizeValue: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold'
+    },
+    iconFill: {
+        paddingRight: 10,
+        color: '#fff',
+    },
+    iconFill2: {
+        color: '#fff',
+    }
 })
 
 export default ShrimpPrice;
