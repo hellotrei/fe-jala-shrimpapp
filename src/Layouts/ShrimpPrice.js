@@ -35,10 +35,10 @@ const ShrimpPrice = ({navigation}) => {
         getDataFromApiAsync()
     },[search])
 
+
     const renderItem = ({item}) => {
         return(
             <View style={styles.containerItem}>
-
                 <View style={styles.containerImg}>
                     <View style={styles.wrapperAva}><Image
                         source={{uri: `https://app.jala.tech/storage/${item.creator.avatar}`}}
@@ -46,7 +46,8 @@ const ShrimpPrice = ({navigation}) => {
                     /></View>
                     <View style={styles.wrapperName}>
                     <Text style = {styles.txtInfo1}>Supplier</Text>
-                        <Text style = {styles.txtCreatorName}>{item.creator.name}</Text></View>
+                        <Text style = {styles.txtCreatorName}>{item.creator.name}</Text>
+                        </View>
                         {item.creator.email_verified == true ?  <View style={styles.wrapperVerif}>
                         <View style={styles.wrapperIcon}>
                             <Ionicons name="md-star" size={12} style={styles.iconFill2} />
@@ -55,6 +56,7 @@ const ShrimpPrice = ({navigation}) => {
                     </View> :  <View style={styles.wrapperUnverif}>
                         <Text style={styles.txtVerif}>  Belum terverifikasi</Text>
                     </View> }
+                   
                 </View>
 
                 <View style = {styles.containerBody}>
@@ -78,6 +80,7 @@ const ShrimpPrice = ({navigation}) => {
 
     const sizeFilter = (size, item) => {
         let dataSend = ''
+        
             const arrayItem = Object.values(item)
             const arrayKey = Object.keys(item)
             
@@ -86,6 +89,7 @@ const ShrimpPrice = ({navigation}) => {
                     dataSend = arrayItem[i]
                 }
             }
+     
         return dataSend
     }
 
@@ -100,7 +104,6 @@ const ShrimpPrice = ({navigation}) => {
         }
         return data
     }
-   
     
     return(
         <SafeAreaView style = {styles.container}>     
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
     },
-    containerModal: {
+    modalView: {
         top: 80,
         backgroundColor: "white",
         borderTopRightRadius: 16,
@@ -187,10 +190,10 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
       },
-      btnClose:{
+      buttonClose:{
           left: 270
       },
-      wrapperModal1: {
+      modalView1: {
         flexDirection: 'row',
         backgroundColor: "white",
         borderTopRightRadius: 16,
@@ -205,20 +208,17 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
       },
-    txtModal: {
+    modalText: {
         margin: 10
     },
-    txtClose:{
+    textStyle:{
         marginTop: 10,
         color: "#1B77DF",
     },
     txtTitle: {
         fontSize: 18,
-        lineHeight: 24,
-        letterSpacing: 0.5,
         fontWeight: "700",
         alignSelf: "center",
-        padding: 10,
         color:"#004492",
     },
     containerItem: {
@@ -305,10 +305,13 @@ const styles = StyleSheet.create({
     txtVerif: {
         fontSize: 10,
     },
+    txtInfo1: {
+        color: '#0192d5',
+        fontSize: 12,
+    },
     txtCreatorName: {
         fontWeight: '400',
-        fontSize: 17,
-        margin: 10
+        fontSize: 14,
     },
     img: {
         width: 40,
@@ -321,7 +324,6 @@ const styles = StyleSheet.create({
     },
     containerBtn:{
         flex: 1,
-   
         width: 128,
         height: 40,
         borderRadius: 4,
@@ -360,7 +362,7 @@ const styles = StyleSheet.create({
         elevation: 0,
         backgroundColor: '#1B77DF',
     },
-    txtBtn1: {
+    txtbtn1: {
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 24,
@@ -368,14 +370,12 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         color: 'white'
     },
-    txtBtn2: {
+    txtbtn2: {
+        width:  200,
+        height: 50,
         fontSize: 16,
         fontWeight: '400',
-        lineHeight: 24,
-        letterSpacing: 0.5,
-        alignSelf: "center",
         color: 'white',
-        top: 10,
     },
     txtBtn:{
         color: 'white',
@@ -385,6 +385,15 @@ const styles = StyleSheet.create({
         letterSpacing: 0.5,
         margin: 6,
         alignSelf: "center"
+    },
+    txtSize: {
+        color: '#fff',
+        fontSize: 10
+    },
+    txtSizeValue: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 'bold'
     },
     txtDate: {
         fontSize: 10,
@@ -403,23 +412,8 @@ const styles = StyleSheet.create({
     },
     txtPrice: {
         fontSize: 22,
-        fontWeight: "900",
-        lineHeight: 28,
-        marginLeft: 10,
-    },
-    txtInfo1: {
-        fontSize: 22,
         fontWeight: "bold",
         marginLeft: 10,
-    },
-    txtSize: {
-        color: '#fff',
-        fontSize: 10
-    },
-    txtSizeValue: {
-        color: '#fff',
-        fontSize: 14,
-        fontWeight: 'bold'
     },
     iconFill: {
         paddingRight: 10,
