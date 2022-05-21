@@ -34,7 +34,10 @@ const ShrimpPrice = ({navigation}) => {
     useEffect(() => {
         getDataFromApiAsync()
     },[search])
-
+    
+    const format = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
 
     const renderItem = ({item}) => {
         return(
@@ -64,7 +67,7 @@ const ShrimpPrice = ({navigation}) => {
                     <Text style = {styles.txtRegionName}>{item.region.full_name}</Text>
                     <Text style = {styles.txtRegion}>{item.region.name_translated}</Text>
                     <Text style = {styles.txtDate}>Size {size}</Text>
-                    <Text style = {styles.txtPrice}>IDR {sizeFilter(size, item)}</Text>
+                    <Text style = {styles.txtPrice}>IDR {format(sizeFilter(size, item))}</Text>
                 </View>
                 <View style = {styles.containerBtn}>
                     <TouchableOpacity 
