@@ -57,9 +57,9 @@ const ShrimpNews = () => {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `Bagikan profil supplier ${route.params.data.creator.name} `,
-        url: `https://app.jala.tech/shrimp_prices/${route.params.data.creator.id}`,
-        message: `Bagikan profil ${route.params.data.creator.name} `,
+        message: `Bagikan berita terbaru mengenai ${item.title} `,
+        url: `https://app.jala.tech/posts/${item.id}`,
+        message: `Bagikan berita terbaru mengenai ${item.title} `,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
